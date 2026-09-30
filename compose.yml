@@ -1,0 +1,25 @@
+services:
+  mongo_db:
+    image: mongo:7
+    volumes: ["mongo_data:/data/db"]
+  api:
+    build: server/database
+    environment:
+      MONGO_URL: mongodb://mongo_db:27017/dealershipsDB
+    depends_on: [mongo_db]
+  sentiment:
+    build: server/djangoapp/microservices
+  web:
+    build: server
+    ports: ["8000:8000"]
+    environment:
+      backend_url: http://api:3030
+      sentiment_analyzer_url: http://sentiment:5050
+      SQLITE_PATH: /data/db.sqlite3
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-local-development-key-not-for-public-use}
+    volumes: ["django_data:/data"]
+    depends_on: [api, sentiment]
+volumes:
+  mongo_data:
+  django_data:
