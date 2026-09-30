@@ -15,3 +15,7 @@ Django handles authentication, car makes/models, and API proxying. Express store
 Run `python manage.py test` from server, `npm test` from server/database, and `npm run build` from server/frontend. GitHub Actions executes these checks on pushes and pull requests.
 
 Based on IBM Skills Network's Apache-2.0 starter. Implementation and validation use coding assistance; no claim of independent authorship is made. Team/contact details are fictional demonstration content. Never use real customer data in this course deployment.
+
+### Course Kubernetes sandbox
+
+`server/deployment.yaml` uses temporary storage because the lab quota disallows persistent volume claims. Back up `/data/db.sqlite3` before recreating the Pod. The lab workspace and port-forward URL are temporary; a production deployment needs durable database storage and a permanent ingress.
